@@ -22,10 +22,12 @@ pipeline {
     }
     post {
         success {
-           slackSend channel: 'devops5', message: "${env.JOB_NAME} Build successful: ID:${env.BUILD_ID}"
+           slackSend channel: 'devops5', message: "${env.JOB_NAME} Build successful: ID:${env.BUILD_ID}";
+           mail bcc: '', body: "<b>Email notification</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'hello@bydewfall.com', mimeType: 'text/html', replyTo: '', subject: "Successful Test CI: Project name -> ${env.JOB_NAME}", to: "stephen.nganga1@student.moringaschool.com";
         }
         failure {
-            slackSend channel: 'devops5', message: "${env.JOB_NAME} Build failed: ID:${env.BUILD_ID}"
+            slackSend channel: 'devops5', message: "${env.JOB_NAME} Build failed: ID:${env.BUILD_ID}";
+            mail bcc: '', body: "<b>Email notification</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'hello@bydewfall.com', mimeType: 'text/html', replyTo: '', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "stephen.nganga1@student.moringaschool.com";
         }  
     }
 }

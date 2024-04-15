@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+    tools{
+        nodejs 'nodejs'
+    }
+    stages {
+        stage('Clone Code'){
+            steps{
+                git branch: 'master', url: 'https://github.com/kelwinsj/gallery-two.git'
+            }
+        }
+        stage('Build') { 
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('Test') { 
+            steps {
+                sh 'npm test' 
+            }
+        }
+    }
+    post {
+        success {
+           slackSend channel: 'devops5', message: "${env.JOB_NAME} Build successful: ID:${env.BUILD_ID}"
+        }
+        failure {
+            slackSend channel: 'devops5', message: "${env.JOB_NAME} Build failed: ID:${env.BUILD_ID}"
+        }  
+    }
+}
